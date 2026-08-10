@@ -297,13 +297,13 @@
   <a href="https://wa.me/573168264548?text=Hola%2C%20estoy%20interesado%20en%20cotizar%20los%20servicios%20de%20Rentcomsas" class="btn btn-primary">Escribir por WhatsApp</a>
 </section>
 
-<a href="https://wa.me/573168264548?text=Hola%2C%20estoy%20interesado%20en%20cotizar%20los%20servicios%20de%20Rentcomsas" class="wa-float" title="Escríbenos por WhatsApp">💬</a>
-
+<a href="https://wa.me/573168264548?text=Hola%2C%20estoy%20interesado%20en%20cotizar%20los%20servicios%20de%20Rentcomsas" class="wa-float" title="Escríbenos por WhatsApp">
+  <img src="https://cdn.simpleicons.org/whatsapp/white" alt="WhatsApp" width="28" height="28">
+</a>
 <footer>RENTCOMSAS © 2026 — MOCKUP DE DISEÑO, SIN DATOS REALES</footer>
 
 <script>
   const cards = document.querySelectorAll('.service-card');
-  const observer = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{
       if(e.isIntersecting){
         e.target.classList.add('visible');
