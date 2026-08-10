@@ -1,11 +1,320 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Rentcomsas</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rentcomsas — Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0B1F3A;
+    --ink-2:#122a4d;
+    --circuit:#1FA37E;
+    --bone:#F5F3EE;
+    --slate:#8FA3B0;
+    --signal:#FF8A3D;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--bone);
+    color:var(--ink);
+    overflow-x:hidden;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    height:100vh;
+    min-height:640px;
+    background:var(--ink);
+    color:var(--bone);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    overflow:hidden;
+  }
+  .circuit-bg{
+    position:absolute;
+    inset:0;
+    opacity:0.16;
+    pointer-events:none;
+  }
+  .hero-eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.8rem;
+    letter-spacing:0.15em;
+    color:var(--circuit);
+    text-transform:uppercase;
+    margin-bottom:1.5rem;
+  }
+  .hero h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:clamp(2.5rem,7vw,5.5rem);
+    line-height:1.05;
+    letter-spacing:-0.02em;
+    max-width:16ch;
+  }
+  .hero h1 span{color:var(--circuit);}
+  .hero p{
+    font-size:clamp(1rem,2vw,1.25rem);
+    color:var(--slate);
+    max-width:36ch;
+    margin-top:1.5rem;
+  }
+  .hero-cta{
+    margin-top:2.5rem;
+    display:flex;
+    gap:1rem;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  .btn{
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:0.95rem;
+    padding:0.9rem 1.8rem;
+    border-radius:4px;
+    border:1px solid transparent;
+    cursor:pointer;
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:0.5rem;
+    transition:transform 0.2s ease, opacity 0.2s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primary{background:var(--signal);color:var(--ink);}
+  .btn-ghost{border-color:var(--slate);color:var(--bone);}
+
+  .scroll-cue{
+    position:absolute;
+    bottom:2.5rem;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.7rem;
+    letter-spacing:0.1em;
+    color:var(--slate);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:0.5rem;
+    animation:bob 2s ease-in-out infinite;
+  }
+  .scroll-cue::after{
+    content:'';
+    width:1px;
+    height:32px;
+    background:linear-gradient(var(--circuit), transparent);
+  }
+  @keyframes bob{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(8px);}
+  }
+
+  /* ---------- TRACE DIVIDER (elemento firma) ---------- */
+  .trace{
+    height:80px;
+    background:var(--ink);
+    position:relative;
+  }
+  .trace svg{width:100%;height:100%;display:block;}
+  .trace path{
+    fill:none;
+    stroke:var(--circuit);
+    stroke-width:2;
+    stroke-dasharray:6 6;
+    opacity:0.5;
+  }
+
+  /* ---------- SERVICIOS ---------- */
+  .services{
+    padding:6rem 1.5rem 5rem;
+    max-width:1100px;
+    margin:0 auto;
+  }
+  .section-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.75rem;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    color:var(--circuit);
+    margin-bottom:0.75rem;
+  }
+  .services h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:clamp(1.8rem,4vw,2.6rem);
+    max-width:20ch;
+    margin-bottom:3.5rem;
+  }
+  .service-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:1.5rem;
+  }
+  .service-card{
+    background:white;
+    border:1px solid #e4e0d6;
+    border-radius:8px;
+    padding:2rem;
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity 0.6s ease, transform 0.6s ease;
+  }
+  .service-card.visible{opacity:1;transform:translateY(0);}
+  .service-card .tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.7rem;
+    color:var(--slate);
+    letter-spacing:0.08em;
+  }
+  .service-card h3{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:1.35rem;
+    margin:0.6rem 0 0.8rem;
+  }
+  .service-card p{
+    color:#4a5568;
+    font-size:0.95rem;
+    line-height:1.55;
+  }
+  .service-card .icon{
+    width:44px;height:44px;
+    border-radius:50%;
+    background:rgba(31,163,126,0.12);
+    color:var(--circuit);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    margin-bottom:1rem;
+  }
+
+  /* ---------- CTA FINAL ---------- */
+  .cta-final{
+    background:var(--ink-2);
+    color:var(--bone);
+    padding:5rem 1.5rem;
+    text-align:center;
+  }
+  .cta-final h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:clamp(1.8rem,4vw,2.4rem);
+    margin-bottom:1rem;
+  }
+  .cta-final p{color:var(--slate);margin-bottom:2rem;}
+
+  /* ---------- WHATSAPP FLOTANTE ---------- */
+  .wa-float{
+    position:fixed;
+    bottom:1.5rem;
+    right:1.5rem;
+    background:#25D366;
+    color:white;
+    width:58px;height:58px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 4px 16px rgba(0,0,0,0.25);
+    text-decoration:none;
+    font-size:1.6rem;
+    z-index:50;
+    transition:transform 0.2s ease;
+  }
+  .wa-float:hover{transform:scale(1.08);}
+
+  footer{
+    background:var(--ink);
+    color:var(--slate);
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.75rem;
+    text-align:center;
+    padding:1.5rem;
+  }
+</style>
 </head>
 <body>
-    <h1>Bienvenido a Rentcomsas</h1>
-    <p> Estamos construyendo una página para ti.</p>
+
+<section class="hero">
+  <svg class="circuit-bg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+    <g stroke="#1FA37E" stroke-width="1.5" fill="none">
+      <path d="M50 100 H250 V200 H450"/>
+      <path d="M100 400 H300 V300 H600"/>
+      <path d="M650 80 V250 H750"/>
+      <path d="M20 500 H200 V550 H400 V450"/>
+      <circle cx="250" cy="200" r="4" fill="#1FA37E"/>
+      <circle cx="450" cy="200" r="4" fill="#1FA37E"/>
+      <circle cx="600" cy="300" r="4" fill="#1FA37E"/>
+      <circle cx="200" cy="550" r="4" fill="#1FA37E"/>
+    </g>
+  </svg>
+  <div class="hero-eyebrow">Préstamo &amp; mantenimiento de equipos</div>
+  <h1>Tu computador, <span>siempre listo</span> para trabajar</h1>
+  <p>Reparación, mantenimiento y equipos en préstamo para que nunca pares tu trabajo por un problema técnico.</p>
+  <div class="hero-cta">
+    <a href="#servicios" class="btn btn-ghost">Ver servicios</a>
+    <a href="#cotizar" class="btn btn-primary">Cotizar por WhatsApp</a>
+  </div>
+  <div class="scroll-cue">SCROLL</div>
+</section>
+
+<div class="trace">
+  <svg viewBox="0 0 1000 80" preserveAspectRatio="none">
+    <path d="M0 40 H200 V10 H400 V70 H600 V40 H1000"/>
+  </svg>
+</div>
+
+<section class="services" id="servicios">
+  <div class="section-label">Qué hacemos</div>
+  <h2>Dos formas de mantener tu operación andando sin interrupciones</h2>
+  <div class="service-grid">
+    <div class="service-card">
+      <div class="icon">01</div>
+      <div class="tag">MANTENIMIENTO</div>
+      <h3>Diagnóstico y reparación</h3>
+      <p>Revisión técnica de hardware y software, limpieza, cambio de piezas y solución de fallas, con seguimiento del estado de tu equipo.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon">02</div>
+      <div class="tag">PRÉSTAMO</div>
+      <h3>Equipos temporales</h3>
+      <p>Mientras tu equipo está en reparación, o si necesitas cobertura adicional, te prestamos un computador para que no pares.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon">03</div>
+      <div class="tag">SOPORTE</div>
+      <h3>Asesoría técnica</h3>
+      <p>Recomendaciones sobre qué equipo comprar, cómo prolongar su vida útil, y soporte ante dudas técnicas del día a día.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-final" id="cotizar">
+  <h2>¿Necesitas una cotización?</h2>
+  <p>Cuéntanos qué necesitas y te respondemos directo por WhatsApp.</p>
+  <a href="#" class="btn btn-primary">Escribir por WhatsApp</a>
+</section>
+
+<a href="#" class="wa-float" title="Escríbenos por WhatsApp">💬</a>
+
+<footer>RENTCOMSAS © 2026 — MOCKUP DE DISEÑO, SIN DATOS REALES</footer>
+
+<script>
+  const cards = document.querySelectorAll('.service-card');
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('visible');
+      }
+    });
+  },{threshold:0.2});
+  cards.forEach((c,i)=>{
+    c.style.transitionDelay = (i*0.12)+'s';
+    observer.observe(c);
+  });
+</script>
+
 </body>
 </html>
